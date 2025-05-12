@@ -8,8 +8,6 @@ export const Alumnos = () => {
     const [alumnos, setAlumnos] = useState<Alumno[]>([]);
     const [loading, setLoading] = useState(true);
 
-    console.log(import.meta.env.VITE_API_URL)
-
     const [error, setError] = useState(''); const fetchAlumnos = async () => {
         setLoading(true);
         setError('');
