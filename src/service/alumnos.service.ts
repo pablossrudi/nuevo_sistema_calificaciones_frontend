@@ -1,12 +1,13 @@
 import axiosInstance from './AxiosInterceptor';
 
-const BASE_URL = `${import.meta.env.VITE_API_URL}/api/alumnos?size=6`;
+const BASE_URL = `${import.meta.env.VITE_API_URL}/api/alumnos`;
 
 export interface Alumno {
     alumnoId: string;
     alumnoNombre: string;
     alumnoRut: string;
     alumnoDireccion: string;
+    estado: boolean;
     materias: any[];
 }
 
@@ -19,7 +20,7 @@ interface PaginatedResponse {
 export const alumnosService = {
     // Obtener todos los alumnos
     getAlumnos: async (): Promise<Alumno[]> => {
-        const response = await axiosInstance.get<PaginatedResponse>(BASE_URL);
+        const response = await axiosInstance.get<PaginatedResponse>(`${BASE_URL}?size=20`);
         
         if (response.data && Array.isArray(response.data.alumnos)) {
             return response.data.alumnos;
@@ -47,7 +48,12 @@ export const alumnosService = {
     },
 
     // Eliminar un alumno
-    deleteAlumno: async (id: string): Promise<void> => {
-        await axiosInstance.delete(`${BASE_URL}/${id}`);
+    deleteAlumno: async (id: string): Promise<boolean> => {
+        const response = await axiosInstance.put<Alumno>(`${BASE_URL}/delete/${id}`)
+        console.log(response.data)
+        return response.data.estado;
     }
+    /* deleteAlumno: async (id: string): Promise<void> => {
+        await axiosInstance.delete(`${BASE_URL}/${id}`);
+    } */
 };
