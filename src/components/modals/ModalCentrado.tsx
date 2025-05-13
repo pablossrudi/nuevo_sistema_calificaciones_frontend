@@ -16,7 +16,7 @@ export const ModalCentrado = ({ open, title, children, onClose, onConfirm }: Pro
 
     return (
         <div className="fixed inset-0 flex justify-center items-center bg-semi-transparent z-50">
-            <div className="flex flex-col lg:w-1/4 p-6  space-y-9 bg-primary">
+            <div className="flex flex-col w-3/4 lg:w-1/4 p-6 space-y-9 bg-primary">
                 <Header title={title} onClose={onClose} />
                 <Content>
                     {children}

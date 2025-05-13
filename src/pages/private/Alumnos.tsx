@@ -101,11 +101,11 @@ export const Alumnos = () => {
 
     return (
         <div className="container mx-auto px-4 pt-28 pb-20">
-            <div className='flex flex-row justify-between'>
+            <div className='flex flex-col md:flex-row justify-between'>
                 <h1 className="text-2xl font-bold text-gray-700">Lista de Alumnos</h1>
                 <button
                     type="submit"
-                    className="w-40 bg-white text-gray-700 font-medium p-2.5 ml-2 shadow-primary hover:shadow-lg transition-shadow duration-300 "
+                    className="md:w-40 bg-white text-gray-700 font-medium p-2.5 md:ml-2 mt-3 md:mt-0 shadow-primary hover:shadow-lg transition-shadow duration-300 "
                     onClick={() => setModalPostOpen(true)}
                 >
                     Agregar Alumno
