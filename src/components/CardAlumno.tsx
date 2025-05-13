@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { alumnosService } from '../service/alumnos.service';
 import type { Alumno } from '../service/alumnos.service';
 import { ModalCentrado } from './modals/ModalCentrado';
+import { AlumnoForm } from './AlumnoForm';
 
 interface Props {
     alumno: Alumno
@@ -11,7 +12,8 @@ interface Props {
 export const CardAlumno = ({ alumno, fechAlumnos }: Props) => {
     const [error, setError] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
-
+    const [modalEditOpen, setModalEditOpen] = useState(false);
+    
     const handleDeleteAlumno = async () => {
         setError('');
         try {
@@ -26,6 +28,22 @@ export const CardAlumno = ({ alumno, fechAlumnos }: Props) => {
             );
         }
     };
+
+    const handleEditAlumno = async (alumnoData: Omit<Alumno, 'alumnoId' | 'materias'>) => {
+        setError('');
+        try {
+            await alumnosService.updateAlumno(alumno.alumnoId, alumnoData);
+            setModalOpen(false);
+            fechAlumnos();
+        } catch (err: any) {
+            setError(
+                err?.response?.data?.message ||
+                err?.message ||
+                'Error al conectar con el servidor. Por favor, intente nuevamente.'
+            );
+        }
+    }
+
     return (
         <div className="bg-primary shadow-primary overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <div className="p-6 flex flex-col justify-between h-full mx-3">
@@ -61,7 +79,7 @@ export const CardAlumno = ({ alumno, fechAlumnos }: Props) => {
                     </button>
                     <button
                         className="p-3 w-full bg-blue-100 text-blue-700 hover:bg-blue-500 hover:text-white text-base font-medium shadow-md hover:shadow-lg transition-shadow duration-300"
-                        onClick={() => console.log('Editar', alumno.alumnoId)}
+                        onClick={() => setModalEditOpen(true)}
                     >
                         Editar Alumno
                     </button>
@@ -71,6 +89,10 @@ export const CardAlumno = ({ alumno, fechAlumnos }: Props) => {
             <ModalCentrado open={modalOpen} title='Eliminar Alumno' onClose={() => setModalOpen(false)} onConfirm={handleDeleteAlumno}>
                 <h2 className='text-xl font-bold text-gray-700'>Estas a punto de eliminar a {alumno.alumnoNombre}</h2>
                 <h2 className='text-xl font-bold text-gray-700'>¿Estas segur@ de ejecutar esta acción?</h2>
+            </ModalCentrado>
+
+            <ModalCentrado open={modalEditOpen} title='Editar Alumno' onClose={() => setModalEditOpen(false)}>
+                <AlumnoForm alumno={alumno} onSubmit={handleEditAlumno} error={error} onClose={() => setModalOpen(false)} />
             </ModalCentrado>
         </div>
     );
