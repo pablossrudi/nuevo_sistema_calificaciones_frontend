@@ -2,6 +2,7 @@
 
 @theme {
     --color-primary: #D9D9D9;
+    --color-semi-transparent: rgba(54, 65, 83, 0.6);
     --shadow-primary: 0 0 4px 0 rgba(0,0,0,0.25);
     --shadow-navbar: 0 1px 4px 0 rgba(0,0,0,0.25);
 }
