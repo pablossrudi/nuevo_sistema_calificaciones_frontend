@@ -11,6 +11,7 @@ export const Alumnos = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [modaPostOpen, setModalPostOpen] = useState(false);
+    const [notData, setNotData] = useState(false);
 
     const fetchAlumnos = async () => {
         setLoading(true);
@@ -18,6 +19,7 @@ export const Alumnos = () => {
         try {
             const data = await alumnosService.getAlumnos();
             setAlumnos(data);
+            setNotData(false);
             console.log(data);
         } catch (err: any) {
             setError(
@@ -44,6 +46,26 @@ export const Alumnos = () => {
             );
         }
     }
+
+    const handleSearchSubmit = async (rut: string) => {
+        if (rut === '') {
+            setNotData(false);
+            fetchAlumnos();
+            return;
+        }
+        setError('');
+        setLoading(true);
+        try {
+            const response = await alumnosService.getAlumnoByRut(rut)
+            if (response) {
+                setAlumnos([response]);
+            }
+        } catch (err: any) {
+            setNotData(true);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         fetchAlumnos();
@@ -89,17 +111,38 @@ export const Alumnos = () => {
                     Agregar Alumno
                 </button>
             </div>
-            <Buscador />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20">
-                {alumnos.map((alumno) => (
-                    alumno.estado !== false ?
-                        <CardAlumno key={alumno.alumnoId} alumno={alumno} fechAlumnos={fetchAlumnos} />
-                        : null
-                ))}
-            </div>
+            <Buscador onSubmit={handleSearchSubmit} />
+            {
+                notData ? (
+                    <div className="flex flex-col items-center justify-center space-y-4">
+                        <div className="text-red-500 text-center max-w-md px-4">
+                            <svg className="w-12 h-12 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <h2 className="text-xl font-semibold mb-2">Ups!!</h2>
+                            <p className="mb-4">No se encontraron datos</p>
+                            <button
+                                className="p-3 w-full bg-blue-100 text-blue-700 hover:bg-blue-500 hover:text-white text-base font-medium shadow-md hover:shadow-lg transition-shadow duration-300"
+                                onClick={fetchAlumnos}
+                            >
+                                Intenta de nuevo
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20">
+                        {alumnos.map((alumno) => (
+                            alumno.estado !== false ?
+                                <CardAlumno key={alumno.alumnoId} alumno={alumno} fechAlumnos={fetchAlumnos} />
+                                : null
+                        ))}
+                    </div>
+                )
+            }
+
             <ModalCentrado open={modaPostOpen} title='Crear nuevo alumno' onClose={() => setModalPostOpen(false)}>
                 <AlumnoForm onSubmit={handlePostAlumno} error={error} onClose={() => setModalPostOpen(false)} />
             </ModalCentrado>
-        </div>
+        </div >
     );
 };
