@@ -35,6 +35,12 @@ export const alumnosService = {
         return response.data;
     },
 
+    // Obtener un alumno por rut
+    getAlumnoByRut: async (rut: string): Promise<Alumno> => {
+        const response = await axiosInstance.get<Alumno>(`${BASE_URL}/rut/${rut}`);
+        return response.data;
+    },
+
     // Crear un nuevo alumno
     createAlumno: async (alumno: Omit<Alumno, 'alumnoId' | 'materias'>): Promise<Alumno> => {
         const response = await axiosInstance.post<Alumno>(BASE_URL, alumno);
