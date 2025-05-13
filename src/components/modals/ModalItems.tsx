@@ -24,7 +24,7 @@ export const Header = ({title, onClose}: Header) => {
 
 export const Content = ({children}: Props) => {
     return(
-        <div className="flex flex-col items-center text-center w-full bg-primary">
+        <div className="flex flex-col w-full bg-primary">
             {children}
         </div>
     )
