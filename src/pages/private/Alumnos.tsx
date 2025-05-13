@@ -7,8 +7,9 @@ import { Buscador } from '../../components/Buscador';
 export const Alumnos = () => {
     const [alumnos, setAlumnos] = useState<Alumno[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
-    const [error, setError] = useState(''); const fetchAlumnos = async () => {
+    const fetchAlumnos = async () => {
         setLoading(true);
         setError('');
         try {
@@ -60,11 +61,21 @@ export const Alumnos = () => {
 
     return (
         <div className="container mx-auto px-4 pt-28 pb-20">
-            <h1 className="text-2xl font-bold text-gray-700">Lista de Alumnos</h1>
+            <div className='flex flex-row justify-between'>
+                <h1 className="text-2xl font-bold text-gray-700">Lista de Alumnos</h1>
+                <button
+                    type="submit"
+                    className="w-40 bg-white text-gray-700 font-medium p-2.5 ml-2 shadow-primary hover:shadow-lg transition-shadow duration-300 "
+                >
+                    Agregar Alumno
+                </button>
+            </div>
             <Buscador />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20">
                 {alumnos.map((alumno) => (
-                    <CardAlumno key={alumno.alumnoId} {...alumno} />
+                    alumno.estado !== false ?
+                        <CardAlumno key={alumno.alumnoId} alumno={alumno} fechAlumnos={fetchAlumnos} />
+                        : null
                 ))}
             </div>
         </div>
