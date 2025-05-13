@@ -3,11 +3,14 @@ import { alumnosService } from '../../service/alumnos.service';
 import type { Alumno } from '../../service/alumnos.service';
 import { CardAlumno } from '../../components/CardAlumno';
 import { Buscador } from '../../components/Buscador';
+import { ModalCentrado } from '../../components/modals/ModalCentrado';
+import { AlumnoForm } from '../../components/AlumnoForm';
 
 export const Alumnos = () => {
     const [alumnos, setAlumnos] = useState<Alumno[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [modaPostOpen, setModalPostOpen] = useState(false);
 
     const fetchAlumnos = async () => {
         setLoading(true);
@@ -26,6 +29,21 @@ export const Alumnos = () => {
             setLoading(false);
         }
     };
+
+    const handlePostAlumno = async (alumnoData: Omit<Alumno, 'alumnoId' | 'materias'>) => {
+        setError('');
+        try {
+            await alumnosService.createAlumno(alumnoData);
+            setModalPostOpen(false);
+            fetchAlumnos();
+        } catch (err: any) {
+            setError(
+                err?.response?.data?.message ||
+                err?.message ||
+                'Error al conectar con el servidor. Por favor, intente nuevamente.'
+            );
+        }
+    }
 
     useEffect(() => {
         fetchAlumnos();
@@ -66,6 +84,7 @@ export const Alumnos = () => {
                 <button
                     type="submit"
                     className="w-40 bg-white text-gray-700 font-medium p-2.5 ml-2 shadow-primary hover:shadow-lg transition-shadow duration-300 "
+                    onClick={() => setModalPostOpen(true)}
                 >
                     Agregar Alumno
                 </button>
@@ -78,6 +97,9 @@ export const Alumnos = () => {
                         : null
                 ))}
             </div>
+            <ModalCentrado open={modaPostOpen} title='Crear nuevo alumno' onClose={() => setModalPostOpen(false)}>
+                <AlumnoForm onSubmit={handlePostAlumno} error={error} onClose={() => setModalPostOpen(false)} />
+            </ModalCentrado>
         </div>
     );
 };
