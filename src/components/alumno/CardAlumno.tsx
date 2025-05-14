@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { alumnosService } from '../service/alumnos.service';
-import type { Alumno } from '../service/alumnos.service';
-import { ModalCentrado } from './modals/ModalCentrado';
+import { alumnosService } from '../../service/alumnos.service';
+import type { Alumno } from '../../service/alumnos.service';
+import { ModalCentrado } from '../modals/ModalCentrado';
 import { AlumnoForm } from './AlumnoForm';
 
 interface Props {

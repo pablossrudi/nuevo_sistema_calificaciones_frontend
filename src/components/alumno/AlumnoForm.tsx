@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { Alumno } from '../service/alumnos.service';
+import type { Alumno } from '../../service/alumnos.service';
 
 interface Props {
     alumno?: Omit<Alumno, 'alumnoId' | 'materias'>;

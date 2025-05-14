@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { alumnosService } from '../../service/alumnos.service';
 import type { Alumno } from '../../service/alumnos.service';
-import { CardAlumno } from '../../components/CardAlumno';
-import { Buscador } from '../../components/Buscador';
+import { CardAlumno } from '../../components/alumno/CardAlumno';
+import { Buscador } from '../../components/alumno/Buscador';
 import { ModalCentrado } from '../../components/modals/ModalCentrado';
-import { AlumnoForm } from '../../components/AlumnoForm';
+import { AlumnoForm } from '../../components/alumno/AlumnoForm';
 
 export const Alumnos = () => {
     const [alumnos, setAlumnos] = useState<Alumno[]>([]);
