@@ -3,12 +3,14 @@ import { AlignJustify, LogOut } from "lucide-react";
 import { authService } from "../service/auth.service";
 import { useNavigate } from "react-router-dom";
 import { ModalCentrado } from "./modals/ModalCentrado";
+import { SubMenu } from "./menus/SubMenu";
 
 interface Props {
     children: ReactNode
 }
 
 export const Navbar = ({ children }: Props) => {
+    const [menuOpen, setMenuOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -28,27 +30,27 @@ export const Navbar = ({ children }: Props) => {
                     </div>
                     <div className="flex items-center space-x-6 scale-0 md:scale-100">
                         <ul className="flex flex-row list-none space-x-3 text-gray-700 font-medium text-lg">
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <a className="nav-link active" aria-current="page" href="#">Alumnos</a>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Administracion</a>
+                                <a className="nav-link cursor-pointer" onClick={() => setModalOpen(true)}>Agregar materia</a>
                             </li>
                         </ul>
                         <button onClick={handleLogout} className="flex flex-row items-center btn btn-danger ms-auto text-gray-700 font-medium text-lg cursor-pointer">
                             <LogOut className="mr-1" /> Cerrar sesion
                         </button>
                     </div>
-                    <button className="absolute right-5 flex p-2 items-center bg-white shadow-primary hover:shadow-lg md:scale-0 scale-100" onClick={() => setModalOpen(true)}>
+                    <button className="absolute right-5 flex p-2 items-center bg-white shadow-primary hover:shadow-lg md:scale-0 scale-100 cursor-pointer" onClick={() => setMenuOpen(true)}>
                         <AlignJustify></AlignJustify>
                     </button>
-                    <ModalCentrado open={modalOpen} title="Menu" onClose={() => setModalOpen(false)} >
+                    <SubMenu open={menuOpen} title="Menu" onClose={() => setMenuOpen(false)} >
                         <ul className="flex flex-col list-none space-y-3 text-gray-700 font-medium text-lg">
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <a className="nav-link active" aria-current="page" href="#">Alumnos</a>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Administracion</a>
+                                <a className="nav-link cursor-pointer" onClick={() => setModalOpen(true)}>Agregar materia</a>
                             </li>
                             <li className="nav-item mt-8">
                                 <button onClick={handleLogout} className="flex flex-row items-center btn btn-danger text-gray-700 font-medium text-lg cursor-pointer">
@@ -56,9 +58,10 @@ export const Navbar = ({ children }: Props) => {
                                 </button>
                             </li>
                         </ul>
+                    </SubMenu>
+                    <ModalCentrado open={modalOpen} title="Crear materia" onClose={() => setModalOpen(false)}>
+                        hola
                     </ModalCentrado>
-
-
                 </div>
             </nav>
             {children}
