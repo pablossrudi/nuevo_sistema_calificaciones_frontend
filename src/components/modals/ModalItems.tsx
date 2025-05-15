@@ -15,7 +15,7 @@ export const Header = ({title, onClose}: Header) => {
     return(
         <div className="flex justify-between w-full bg-primary">
             <h1 className="text-2xl text-gray-700 font-bold">{title}</h1>
-            <div className="cursor-pointer" onClick={onClose}>
+            <div className="flex items-center cursor-pointer" onClick={onClose}>
                 <X />
             </div>
         </div>
