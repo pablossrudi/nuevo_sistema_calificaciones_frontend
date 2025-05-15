@@ -13,8 +13,9 @@ export const AppRouter = () => {
                 <Route path="/login" element={<Login />} />
                 <Route element={<PrivateGuard />}>
                     <Route element={<AdminGuard />} >
-                        <Route path="/private/alumnos" element={<Alumnos />} />
+                        <Route path="/admin/alumnos" element={<Alumnos />} />
                     </Route>
+                    <Route path="/client/alumnos" element={<Alumnos />} />
                 </Route>
             </RoutesWithNotFound>
         </BrowserRouter>

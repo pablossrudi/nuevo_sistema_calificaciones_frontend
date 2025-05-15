@@ -15,9 +15,13 @@ export const Login = () => {
         try {
             const response = await authService.login({ userName, password });
             if (response.role === 'ROLE_ADMIN') {
-                navigate('/private/alumnos');
+                navigate('/admin/alumnos');
             } else {
-                setError('No tienes permisos para acceder');
+                if (response.role === 'ROLE_CLIENT') {
+                    navigate('/client/alumnos');
+                } else {
+                    setError('No tienes permisos para acceder');
+                }
             }
         } catch (error) {
             setError('Usuario o contraseña incorrectos');
