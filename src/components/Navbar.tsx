@@ -4,6 +4,7 @@ import { authService } from "../service/auth.service";
 import { useNavigate } from "react-router-dom";
 import { ModalCentrado } from "./modals/ModalCentrado";
 import { SubMenu } from "./menus/SubMenu";
+import { MateriaForm } from "./materia/MateriaForm";
 
 interface Props {
     children: ReactNode
@@ -60,7 +61,7 @@ export const Navbar = ({ children }: Props) => {
                         </ul>
                     </SubMenu>
                     <ModalCentrado open={modalOpen} title="Crear materia" onClose={() => setModalOpen(false)}>
-                        hola
+                        <MateriaForm />
                     </ModalCentrado>
                 </div>
             </nav>
